@@ -1,0 +1,19 @@
+using System;
+
+class Program
+{
+    // Displays a welcome message
+    static void DisplayWelcome()
+    {
+        Console.WriteLine("Welcome to the program!");
+    }
+
+    // Prompts the user for their name and returns it
+    static string PromptUserName()
+    {
+        Console.Write("Please enter your name: ");
+        return Console.ReadLine();
+    }
+
+    // Prompts the user for their favorite number and returns it as an int
+    static int PromptUserNumber()
