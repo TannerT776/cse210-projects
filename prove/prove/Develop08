@@ -1,0 +1,84 @@
+using System;
+using System.Threading;
+
+public abstract class Activity
+{
+    // Protected so derived classes can access them directly if needed
+    protected string _name;
+    protected string _description;
+    protected int _duration; // seconds
+
+    protected Activity(string name, string description)
+    {
+        _name = name;
+        _description = description;
+        _duration = 0;
+    }
+
+    // Display a common starting message and set duration
+    public virtual void DisplayStartingMessage()
+    {
+        Console.Clear();
+        Console.WriteLine($"--- {_name} Activity ---");
+        Console.WriteLine();
+        Console.WriteLine(_description);
+        Console.WriteLine();
+        _duration = PromptForDuration();
+        Console.WriteLine();
+        Console.WriteLine("Get ready...");
+        ShowSpinner(3);
+    }
+
+    // Common ending message
+    public virtual void DisplayEndingMessage()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Well done!");
+        ShowSpinner(3);
+        Console.WriteLine($"You have completed the {_name} activity for {_duration} seconds.");
+        ShowSpinner(2);
+    }
+
+    // Prompt helper
+    private int PromptForDuration()
+    {
+        int seconds = 0;
+        while (true)
+        {
+            Console.Write("Enter desired duration in seconds: ");
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out seconds) && seconds > 0)
+            {
+                return seconds;
+            }
+            Console.WriteLine("Please enter a positive integer value for seconds.");
+        }
+    }
+
+    // Spinner animation using backspaces
+    protected void ShowSpinner(int seconds)
+    {
+        char[] spinner = new char[] { '|', '/', '-', '\\' };
+        int iterations = Math.Max(1, seconds * 4);
+        for (int i = 0; i < iterations; i++)
+        {
+            Console.Write(spinner[i % spinner.Length]);
+            Thread.Sleep(250);
+            Console.Write("\b");
+        }
+    }
+
+    // Countdown display with seconds shown
+    protected void ShowCountDown(int seconds)
+    {
+        for (int i = seconds; i > 0; i--)
+        {
+            Console.Write(i);
+            Thread.Sleep(1000);
+            Console.Write("\b \b");
+        }
+    }
+
+    // Abstract start to be implemented by derived classes
+    public abstract void StartActivity();
+}
