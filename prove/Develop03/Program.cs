@@ -1,67 +1,43 @@
-private string _book;
-private int _chapter;
-private int _verse;
-private string _text;
+using System;
 
-public class Scripture
+class Program
 {
-    private Reference _reference;
-    private List<Word> _words = new List<Word>();
-
-    public Scripture(Reference reference, string text)
+    static void Main(string[] args)
     {
-        _reference = reference;
-        foreach (string word in text.Split(" "))
+        // Create a reference and scripture text
+        Reference reference = new Reference("Proverbs", 3, 5, 6);
+        string text = "Trust in the Lord with all thine heart; and lean not unto thine own understanding.";
+
+        // Create the scripture object
+        Scripture scripture = new Scripture(reference, text);
+
+        // Main loop
+        while (true)
         {
-            _words.Add(new Word(word));
+            // Display the scripture
+            scripture.Display();
+
+            Console.WriteLine();
+            Console.WriteLine("Press ENTER to hide a word, or type 'quit' to finish:");
+            string input = Console.ReadLine();
+
+            if (input != null && input.ToLower() == "quit")
+            {
+                break;
+            }
+
+            // Hide a random word
+            scripture.HideRandomWord();
+
+            // If all words are hidden, show final state and exit
+            if (scripture.AllWordsHidden())
+            {
+                scripture.Display();
+                Console.WriteLine();
+                Console.WriteLine("All words are hidden. Press ENTER to exit.");
+                Console.ReadLine();
+                break;
+            }
         }
-    }
-
-    public void HideRandomWord() { /* logic here */ }
-    public void Display() { /* logic here */ }
-}
-public class Word
-{
-    private string _text;
-    private bool _isHidden;
-
-    public Word(string text)
-    {
-        _text = text;
-        _isHidden = false;
-    }
-
-    public void Hide() { _isHidden = true; }
-    public string GetDisplayText() => _isHidden ? "____" : _text;
-    public bool IsHidden() => _isHidden;
-}
-public class Reference
-{
-    private string _book;
-    private int _chapter;
-    private int _verseStart;
-    private int _verseEnd;
-
-    public Reference(string book, int chapter, int verse)
-    {
-        _book = book;
-        _chapter = chapter;
-        _verseStart = verse;
-        _verseEnd = verse;
-    }
-
-    public Reference(string book, int chapter, int verseStart, int verseEnd)
-    {
-        _book = book;
-        _chapter = chapter;
-        _verseStart = verseStart;
-        _verseEnd = verseEnd;
-    }
-
-    public string GetDisplayText()
-    {
-        return _verseStart == _verseEnd
-            ? $"{_book} {_chapter}:{_verseStart}"
-            : $"{_book} {_chapter}:{_verseStart}-{_verseEnd}";
     }
 }
