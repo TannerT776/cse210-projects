@@ -2,23 +2,41 @@ using System;
 
 public abstract class Goal
 {
-    private string _shortName;
-    private string _description;
-    private int _points;
+    protected string _name;
+    protected string _description;
+    protected int _points;
 
     public Goal(string name, string description, int points)
     {
-        _shortName = name;
+        _name = name;
         _description = description;
         _points = points;
     }
 
-    public string GetName() => _shortName;
-    public string GetDescription() => _description;
-    public int GetPoints() => _points;
+    public string GetName()
+    {
+        return _name;
+    }
 
+    public string GetDescription()
+    {
+        return _description;
+    }
+
+    public int GetPoints()
+    {
+        return _points;
+    }
+
+    // Mark an event as completed and return the points gained
     public abstract int RecordEvent();
+
+    // Whether this goal is fully complete (for Simple + Checklist)
     public abstract bool IsComplete();
+
+    // Used in the list display: "[X]" or "[ ]"
     public abstract string GetStatus();
+
+    // Used by Program.SaveGoals()
     public abstract string SaveFormat();
 }
